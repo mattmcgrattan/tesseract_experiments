@@ -1,0 +1,21 @@
+sudo yum update
+sudo yum upgrade
+sudo yum install epel-release
+sudo yum install centos-release-scl
+sudo yum install git
+sudo yum install leptonica leptonica-devel
+sudo yum install devtoolset-4
+scl enable devtoolset-4 bash
+
+
+git clone https://github.com/tesseract-ocr/tesseract.git
+cd tesseract
+./autogen.sh
+./configure
+make
+sudo make install
+
+sudo yum install libicu-devel pango-devel cairo-devel
+./configure
+make training
+sudo make training-install
