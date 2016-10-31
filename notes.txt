@@ -3,19 +3,45 @@ sudo yum upgrade
 sudo yum install epel-release
 sudo yum install centos-release-scl
 sudo yum install git
-sudo yum install leptonica leptonica-devel
+sudo yum install libtiff-devel
+sudo yum install libjpeg-devel
+sudo yum install openjpeg-devel
+sudo yum install openjpeg
+sudo yum install giflib-devel
+sudo yum install openjpeg2
+sudo yum install openjpeg2-devel
+sudo yum install gnuplot
+sudo yum install libicu-devel pango-devel cairo-devel
+
+
 sudo yum install devtoolset-4
 scl enable devtoolset-4 bash
 
+Built leptonica manually:
 
-git clone https://github.com/tesseract-ocr/tesseract.git
-cd tesseract
-./autogen.sh
+wget http://www.leptonica.org/source/leptonica-1.73.tar.gz
+
+tar xvf leptonica-1.73.tar.gz 
 ./configure
+make
+make check
+sudo make install
+
+
+
+
+ git clone https://github.com/tesseract-ocr/tesseract.git
+ cd tesseract
+./autogen.sh
+LIBLEPT_HEADERSDIR=/usr/local/include/leptonica/ ./configure
 make
 sudo make install
 
-sudo yum install libicu-devel pango-devel cairo-devel
-./configure
+LIBLEPT_HEADERSDIR=/usr/local/include/leptonica/ ./configure
 make training
 sudo make training-install
+sudo ldconfig
+
+TEST:
+
+tesseract ./testing/phototest.tif test -l eng
